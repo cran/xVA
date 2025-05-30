@@ -8,12 +8,13 @@
 #' @param time_points The timepoints that the analysis is performed on
 #' @param sim_data A list containing simulation-related data (model parameters and number of simulation)
 #' @param framework regulatory framework can be 'IMM','SACCR','CEM'
+#' @param seed The seed for the simulations
 #' @return A list containing the exposure profile (both collateralized and uncollateralized)
 #' @export
 #' @author Tasos Grivas <tasos@@openriskcalculator.com>
 #'
 
-CalcSimulatedExposure = function(discount_factors, time_points, spot_curve, CSA, trades, sim_data, framework)
+CalcSimulatedExposure = function(discount_factors, time_points, spot_curve, CSA, trades, sim_data, framework, seed = NULL)
 {
   num_of_points = length(time_points)
   num_of_trades = length(trades)
@@ -27,7 +28,10 @@ CalcSimulatedExposure = function(discount_factors, time_points, spot_curve, CSA,
   forward_curve = c(spot_interest_rate,forward_curve)
   forward_diff=diff(forward_curve)
   theta=forward_diff+sim_data$mean_reversion_a*forward_curve[2:length(forward_curve)]
-  set.seed(30269)
+  if(!is.null(seed)){
+    set.seed(seed)
+  }
+  
   interest_rates    = rep(0,length(num_of_points))
   interest_rates[1] = spot_interest_rate
   random_numbers     = matrix(runif(sim_data$num_of_sims*(num_of_points-1)),nrow=sim_data$num_of_sims,ncol=num_of_points-1)

@@ -51,10 +51,7 @@ xVACalculator = function(trades, CSA, collateral, sim_data, reg_data, credit_cur
   effective_maturity = calcEffectiveMaturity(trades, time_points, reg_data$ccr_framework, exposure_profile$EE)
   
   xVA = list()
-  
 
-  
-  xVA$KVA        = calcKVA(CSA, collateral, trades, reg_data, time_points, EAD$EAD_Value, effective_maturity, reg_data$ignore_def_charge)
   if(!no_simulations)
   {
     xVA$CVA_simulated        = CalcVA(exposure_profile$EE,  discount_factors, PD_cpty, cpty_LGD)
@@ -94,6 +91,7 @@ xVACalculator = function(trades, CSA, collateral, sim_data, reg_data, credit_cur
   }
   
   xVA$cva_capital_charge = calcCVACapital(trades, EAD, reg_data, superv, effective_maturity, cva_sensitivities)
+  xVA$KVA                = calcKVA(trades, reg_data, EAD$EAD_Value, effective_maturity, reg_data$ignore_def_charge, xVA$cva_capital_charge$Total_charge)
   
   if(reg_data$ccr_framework=='SA-CCR')
   {

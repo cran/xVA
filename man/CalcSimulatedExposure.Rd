@@ -11,7 +11,8 @@ CalcSimulatedExposure(
   CSA,
   trades,
   sim_data,
-  framework
+  framework,
+  seed = NULL
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ CalcSimulatedExposure(
 \item{sim_data}{A list containing simulation-related data (model parameters and number of simulation)}
 
 \item{framework}{regulatory framework can be 'IMM','SACCR','CEM'}
+
+\item{seed}{The seed for the simulations}
 }
 \value{
 A list containing the exposure profile (both collateralized and uncollateralized)
